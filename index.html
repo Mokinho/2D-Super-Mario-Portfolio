@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Faiq Zharfan — Portfolio Quest (2D Platformer)</title>
+<meta name="description" content="An original 2D platformer portfolio for Faiq Zharfan, Full-Stack WordPress Developer. Run, jump and explore worlds themed around About, Skills, Work and Contact.">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="game-container"></div>
+
+<div class="top-bar">
+  <button id="classic-resume-btn" class="chip-btn" type="button">📄 Classic Resume</button>
+  <button id="mute-btn" class="chip-btn chip-btn--icon" type="button" aria-label="Toggle sound">🔊</button>
+</div>
+
+<div class="touch-controls" aria-hidden="true">
+  <div class="touch-controls__side touch-controls__side--left">
+    <button id="btn-left" class="touch-btn" type="button">◀</button>
+    <button id="btn-right" class="touch-btn" type="button">▶</button>
+  </div>
+  <div class="touch-controls__side touch-controls__side--right">
+    <button id="btn-down" class="touch-btn" type="button">▼</button>
+    <button id="btn-jump" class="touch-btn touch-btn--jump" type="button">A</button>
+  </div>
+</div>
+
+<div id="panel-overlay" class="panel-overlay">
+  <div id="panel-box" class="panel-box" role="dialog" aria-modal="true" aria-labelledby="panel-title">
+    <button id="panel-close" class="panel-close" type="button" aria-label="Close">✕</button>
+    <h2 id="panel-title" class="panel-title"></h2>
+    <div id="panel-body" class="panel-body"></div>
+  </div>
+</div>
+
+<script src="js/vendor/phaser.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

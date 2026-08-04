@@ -1,0 +1,15 @@
+export const PALETTE = {
+  bg: 0x000000,
+  bgAlt: 0x070402,
+  surface: 0x120b07,
+  text: 0xf7f3ee,
+  textDim: 0x9a8c7f,
+  accent: 0xe85002,
+  accentDim: 0xc10901,
+  gold: 0xe8c766,
+  teal: 0x0e7c74,
+  skin: 0xd9a066,
+  hair: 0x2b1a12,
+  ground: 0x2a1a10,
+  groundTop: 0x4a2f1a,
+};
