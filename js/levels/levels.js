@@ -1,3 +1,5 @@
+import { PALETTE } from '../gfx/palette.js';
+
 export const GROUND_Y = 520;
 export const WORLD_HEIGHT = 600;
 
@@ -9,7 +11,7 @@ export const LEVELS = {
   about: {
     key: 'about',
     title: 'World 1 · About Me',
-    bgTint: 0x0b0705,
+    bgTint: PALETTE.skyDay,
     width: 3600,
     pits: [],
     platforms: [
@@ -46,7 +48,7 @@ export const LEVELS = {
   skills: {
     key: 'skills',
     title: 'World 2 · Skills & Expertise',
-    bgTint: 0x070a0c,
+    bgTint: PALETTE.skyTeal,
     width: 4400,
     pits: [{ x: 2000, width: 96 }],
     platforms: [
@@ -88,7 +90,7 @@ export const LEVELS = {
   work: {
     key: 'work',
     title: 'World 3 · Selected Work',
-    bgTint: 0x06090a,
+    bgTint: PALETTE.skySunset,
     width: 5400,
     pits: [{ x: 1800, width: 96 }, { x: 3600, width: 96 }],
     platforms: [
@@ -128,7 +130,7 @@ export const LEVELS = {
   contact: {
     key: 'contact',
     title: 'World 4 · Contact',
-    bgTint: 0x090604,
+    bgTint: PALETTE.skyDusk,
     width: 2200,
     pits: [],
     platforms: [

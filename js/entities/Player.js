@@ -2,6 +2,8 @@ import { sfx } from '../audio/Sfx.js';
 
 const SPEED = 190;
 const JUMP_VELOCITY = -500;
+const DOUBLE_JUMP_VELOCITY = -430;
+const MAX_JUMPS = 2;
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -18,6 +20,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     this._runTimer = 0;
     this._jumpHeld = false;
     this._facing = 1;
+    this._jumpsUsed = 0;
   }
 
   get onGround() {
@@ -46,9 +49,20 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
       this.setVelocityX(0);
     }
 
-    if (jumpDown && this.onGround && !this._jumpHeld) {
-      this.setVelocityY(JUMP_VELOCITY);
-      sfx.jump();
+    if (this.onGround) this._jumpsUsed = 0;
+
+    const jumpPressed = jumpDown && !this._jumpHeld;
+    if (jumpPressed) {
+      if (this.onGround) {
+        this.setVelocityY(JUMP_VELOCITY);
+        this._jumpsUsed = 1;
+        sfx.jump();
+      } else if (this._jumpsUsed < MAX_JUMPS) {
+        this.setVelocityY(DOUBLE_JUMP_VELOCITY);
+        this._jumpsUsed += 1;
+        sfx.jump(true);
+        this.scene.spawnDoubleJumpBurst && this.scene.spawnDoubleJumpBurst(this.x, this.y);
+      }
     }
     this._jumpHeld = jumpDown;
 

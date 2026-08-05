@@ -1,6 +1,7 @@
 import { PROFILE } from '../data/content.js';
 import { GameState } from '../state/GameState.js';
 import { openClassicResume } from '../ui/Panels.js';
+import { sfx } from '../audio/Sfx.js';
 
 export class TitleScene extends Phaser.Scene {
   constructor() {
@@ -30,7 +31,7 @@ export class TitleScene extends Phaser.Scene {
     }).setOrigin(0.5);
     this.tweens.add({ targets: blink, alpha: 0.2, duration: 650, yoyo: true, repeat: -1 });
 
-    this.add.text(width / 2, height * 0.82, 'Arrow keys / WASD to move · ↑ / Space to jump · ↓ to enter pipes', {
+    this.add.text(width / 2, height * 0.82, 'Arrow keys / WASD to move · ↑ / Space to jump (tap again mid-air to double jump!) · ↓ to enter pipes', {
       fontFamily: 'monospace', fontSize: '12px', color: '#9a8c7f',
     }).setOrigin(0.5);
 
@@ -43,6 +44,7 @@ export class TitleScene extends Phaser.Scene {
 
     const start = () => {
       GameState.reset();
+      sfx.startMusic();
       this.scene.start('World', { levelKey: 'about' });
     };
     this.input.keyboard.once('keydown-ENTER', start);

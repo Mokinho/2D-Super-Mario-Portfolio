@@ -121,20 +121,25 @@ function generateCoinTextures(scene) {
 function generateBlockTextures(scene) {
   const S = 32;
   bake(scene, 'block', S, S, (g) => {
-    g.fillStyle(PALETTE.accent, 1);
+    g.fillStyle(PALETTE.brick, 1);
     g.fillRect(0, 0, S, S);
-    g.lineStyle(3, 0x5c1f00, 1);
+    g.fillStyle(PALETTE.brickHighlight, 1);
+    g.fillRect(2, 2, S - 4, 3);
+    g.fillRect(2, 2, 3, S - 4);
+    g.lineStyle(3, PALETTE.brickDark, 1);
     g.strokeRect(2, 2, S - 4, S - 4);
-    g.fillStyle(0x5c1f00, 1);
+    g.fillStyle(PALETTE.brickDark, 1);
     g.fillRect(0, 0, 4, 4);
     g.fillRect(S - 4, 0, 4, 4);
     g.fillRect(0, S - 4, 4, 4);
     g.fillRect(S - 4, S - 4, 4, 4);
   });
   bake(scene, 'block-used', S, S, (g) => {
-    g.fillStyle(PALETTE.surface, 1);
+    g.fillStyle(PALETTE.ground, 1);
     g.fillRect(0, 0, S, S);
-    g.lineStyle(2, 0x000000, 1);
+    g.fillStyle(PALETTE.groundTop, 1);
+    g.fillRect(2, 2, S - 4, 3);
+    g.lineStyle(2, 0x000000, 0.4);
     g.strokeRect(1, 1, S - 2, S - 2);
   });
 }
@@ -142,34 +147,30 @@ function generateBlockTextures(scene) {
 function generateGroundTextures(scene) {
   const S = 32;
   bake(scene, 'ground', S, S, (g) => {
-    g.fillStyle(PALETTE.groundTop, 1);
-    g.fillRect(0, 0, S, 6);
+    g.fillStyle(PALETTE.grass, 1);
+    g.fillRect(0, 0, S, 10);
+    g.fillStyle(PALETTE.grassShadow, 1);
+    g.fillRect(0, 8, S, 2);
+    g.fillStyle(PALETTE.grassDark, 1);
+    g.fillTriangle(2, 10, 8, 10, 5, 4);
+    g.fillTriangle(18, 10, 26, 10, 22, 3);
     g.fillStyle(PALETTE.ground, 1);
-    g.fillRect(0, 6, S, S - 6);
-    g.lineStyle(1, 0x000000, 0.4);
+    g.fillRect(0, 10, S, S - 10);
+    g.fillStyle(PALETTE.groundTop, 1);
+    g.fillRect(4, 16, 6, 6);
+    g.fillRect(20, 22, 7, 6);
+    g.lineStyle(1, 0x000000, 0.25);
     g.strokeRect(0, 0, S, S);
   });
   bake(scene, 'platform', S, 16, (g) => {
     g.fillStyle(PALETTE.ground, 1);
-    g.fillRect(0, 0, S, 16);
-    g.fillStyle(PALETTE.accent, 1);
-    g.fillRect(0, 0, S, 4);
-    g.lineStyle(1, 0x000000, 0.5);
+    g.fillRect(0, 4, S, 12);
+    g.fillStyle(PALETTE.grass, 1);
+    g.fillRect(0, 0, S, 6);
+    g.fillStyle(PALETTE.grassShadow, 1);
+    g.fillRect(0, 5, S, 2);
+    g.lineStyle(1, 0x000000, 0.3);
     g.strokeRect(0, 0, S, 16);
-  });
-  bake(scene, 'pipe-body', S, S, (g) => {
-    g.fillStyle(PALETTE.teal, 1);
-    g.fillRect(0, 0, S, S);
-    g.lineStyle(2, 0x03302c, 1);
-    g.strokeRect(0, 0, S, S);
-    g.fillStyle(0x03302c, 1);
-    g.fillRect(0, 0, 3, S);
-  });
-  bake(scene, 'pipe-top', S + 8, 22, (g) => {
-    g.fillStyle(PALETTE.teal, 1);
-    g.fillRect(0, 0, S + 8, 22);
-    g.lineStyle(2, 0x03302c, 1);
-    g.strokeRect(0, 0, S + 8, 22);
   });
 }
 
@@ -196,10 +197,26 @@ function generateFlagTextures(scene) {
 
 function generateDecorTextures(scene) {
   bake(scene, 'cloud', 64, 32, (g) => {
-    g.fillStyle(0x1a120c, 0.6);
+    g.fillStyle(PALETTE.cloudWhite, 0.95);
     g.fillEllipse(20, 20, 32, 20);
     g.fillEllipse(40, 16, 28, 18);
     g.fillEllipse(52, 22, 20, 14);
+    g.fillStyle(0xdfeeff, 0.6);
+    g.fillEllipse(24, 24, 20, 10);
+  });
+  bake(scene, 'hill', 180, 90, (g) => {
+    g.fillStyle(PALETTE.hillGreen, 1);
+    g.fillEllipse(90, 90, 180, 110);
+    g.fillStyle(PALETTE.hillGreenDark, 1);
+    g.fillEllipse(60, 96, 70, 60);
+  });
+  bake(scene, 'bush', 70, 32, (g) => {
+    g.fillStyle(PALETTE.bushGreen, 1);
+    g.fillEllipse(18, 22, 30, 22);
+    g.fillEllipse(38, 16, 32, 24);
+    g.fillEllipse(56, 22, 24, 18);
+    g.fillStyle(PALETTE.bushGreenDark, 1);
+    g.fillEllipse(38, 26, 60, 12);
   });
   bake(scene, 'bg-strip', 64, 600, (g) => {
     g.fillStyle(PALETTE.bgAlt, 1);
@@ -213,15 +230,18 @@ function generateDecorTextures(scene) {
 
 export function makePipeTexture(scene, key, width, height) {
   bake(scene, key, width, height, (g) => {
-    g.fillStyle(PALETTE.teal, 1);
+    g.fillStyle(PALETTE.pipeGreen, 1);
     g.fillRect(0, 0, width, height);
-    g.fillStyle(0x0a3f39, 1);
+    g.fillStyle(PALETTE.pipeGreenLight, 1);
+    g.fillRect(4, 0, 6, height);
+    g.fillStyle(PALETTE.pipeGreenDark, 1);
     g.fillRect(0, 0, width, 20);
-    g.lineStyle(2, 0x03302c, 1);
+    g.fillRect(width - 6, 20, 6, height - 20);
+    g.lineStyle(2, PALETTE.pipeGreenDark, 1);
     g.strokeRect(0, 0, width, height);
     g.strokeRect(0, 0, width, 20);
-    g.fillStyle(0x1fa89a, 0.5);
-    g.fillRect(4, 22, 4, height - 26);
+    g.fillStyle(PALETTE.pipeGreenLight, 0.7);
+    g.fillRect(6, 22, 4, height - 26);
   });
 }
 

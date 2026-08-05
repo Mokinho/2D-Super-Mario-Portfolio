@@ -77,8 +77,14 @@ export class WorldScene extends Phaser.Scene {
   }
 
   _buildBackground(level) {
+    for (let x = 0; x < level.width; x += 420) {
+      this.add.image(x + 90, GROUND_Y + 4, 'hill').setOrigin(0.5, 1).setScrollFactor(0.15).setDepth(-3);
+    }
+    for (let x = 0; x < level.width; x += 300) {
+      this.add.image(x + 140, GROUND_Y + 4, 'bush').setOrigin(0.5, 1).setScrollFactor(0.4).setDepth(-2);
+    }
     for (let x = 0; x < level.width; x += 260) {
-      this.add.image(x + 60, 70 + (Math.sin(x) * 20), 'cloud').setAlpha(0.35).setScrollFactor(0.35);
+      this.add.image(x + 60, 70 + (Math.sin(x) * 20), 'cloud').setAlpha(0.9).setScrollFactor(0.35).setDepth(-4);
     }
   }
 
@@ -109,12 +115,13 @@ export class WorldScene extends Phaser.Scene {
   }
 
   _buildHud(level) {
-    const style = { fontFamily: 'monospace', fontSize: '15px', color: '#f7f3ee' };
+    const style = { fontFamily: 'monospace', fontSize: '15px', color: '#f7f3ee', stroke: '#000000', strokeThickness: 4 };
+    this.add.rectangle(0, 0, this.scale.width, 84, 0x000000, 0.28).setOrigin(0, 0).setScrollFactor(0).setDepth(90);
     this.hudLives = this.add.text(16, 12, '', style).setScrollFactor(0).setDepth(100);
     this.hudCoins = this.add.text(16, 34, '', style).setScrollFactor(0).setDepth(100);
     this.hudScore = this.add.text(16, 56, '', style).setScrollFactor(0).setDepth(100);
     this.hudTitle = this.add.text(this.scale.width - 16, 12, level.title, {
-      ...style, color: '#e85002',
+      ...style, color: '#ffd23f',
     }).setOrigin(1, 0).setScrollFactor(0).setDepth(100);
     this._refreshHud();
   }
@@ -227,6 +234,18 @@ export class WorldScene extends Phaser.Scene {
     });
     emitter.setScrollFactor(0);
     this.time.delayedCall(950, () => emitter.destroy());
+  }
+
+  spawnDoubleJumpBurst(x, y) {
+    const emitter = this.add.particles(x, y + 14, 'star-particle', {
+      speed: { min: 40, max: 90 },
+      angle: { min: 90, max: 450 },
+      lifespan: 300,
+      quantity: 6,
+      scale: { start: 1, end: 0 },
+      tint: [0xffd23f, 0xf7f3ee],
+    });
+    this.time.delayedCall(320, () => emitter.destroy());
   }
 
   _gameOver() {
