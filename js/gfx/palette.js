@@ -35,4 +35,9 @@ export const PALETTE = {
   skyTeal: 0x38b6c9,
   skySunset: 0xfb8b4c,
   skyDusk: 0x241b3a,
+
+  caveBlock: 0x1656a8,
+  caveBlockDark: 0x0d3568,
+  caveBlockHighlight: 0x5aa8e8,
+  caveBg: 0x040308,
 };

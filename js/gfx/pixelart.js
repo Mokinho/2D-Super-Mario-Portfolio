@@ -17,6 +17,7 @@ export function generateAllTextures(scene) {
   generateFlagTextures(scene);
   generateDecorTextures(scene);
   generateItemTextures(scene);
+  generateCaveTextures(scene);
 }
 
 function generatePlayerTextures(scene) {
@@ -242,6 +243,21 @@ export function makePipeTexture(scene, key, width, height) {
     g.strokeRect(0, 0, width, 20);
     g.fillStyle(PALETTE.pipeGreenLight, 0.7);
     g.fillRect(6, 22, 4, height - 26);
+  });
+}
+
+function generateCaveTextures(scene) {
+  const S = 32;
+  bake(scene, 'cave-block', S, S, (g) => {
+    g.fillStyle(PALETTE.caveBlock, 1);
+    g.fillRect(0, 0, S, S);
+    g.lineStyle(2, PALETTE.caveBlockDark, 1);
+    g.strokeRect(0, 0, S, S);
+    g.strokeRect(0, 0, S / 2, S / 2);
+    g.strokeRect(S / 2, S / 2, S / 2, S / 2);
+    g.fillStyle(PALETTE.caveBlockHighlight, 1);
+    g.fillRect(1, 1, S / 2 - 2, 2);
+    g.fillRect(S / 2 + 1, S / 2 + 1, S / 2 - 2, 2);
   });
 }
 

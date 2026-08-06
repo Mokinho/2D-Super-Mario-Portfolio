@@ -5,7 +5,7 @@ import { LEVELS, GROUND_Y, WORLD_HEIGHT } from '../levels/levels.js';
 import { GameState } from '../state/GameState.js';
 import { sfx } from '../audio/Sfx.js';
 import {
-  openAboutParagraph, openExperience, openSkill, openProjectByIndex, openAllProjects, openContact, isPanelOpen,
+  openAboutParagraph, openExperience, openSkill, openAllProjects, openContact, isPanelOpen,
 } from '../ui/Panels.js';
 
 export class WorldScene extends Phaser.Scene {
@@ -16,6 +16,7 @@ export class WorldScene extends Phaser.Scene {
   init(data) {
     this.levelKey = data.levelKey || 'about';
     this.level = LEVELS[this.levelKey];
+    this.spawnX = data.spawnX ?? null;
   }
 
   create() {
@@ -39,7 +40,8 @@ export class WorldScene extends Phaser.Scene {
     this._buildBackground(level);
     this._buildGround(level);
 
-    this.player = new Player(this, 80, GROUND_Y - 100);
+    this.player = new Player(this, this.spawnX ?? 80, GROUND_Y - 100);
+    this.player.setDepth(5);
     this.cameras.main.startFollow(this.player, true, 0.12, 0.12);
     this.cameras.main.setDeadzone(120, 80);
 
@@ -73,7 +75,7 @@ export class WorldScene extends Phaser.Scene {
     this._buildHud(level);
     this._buildTouchControlsBinding();
 
-    this.cameras.main.flash(250, 0, 0, 0);
+    this.cameras.main.fadeIn(220, 0, 0, 0);
   }
 
   _buildBackground(level) {
@@ -296,10 +298,14 @@ export class WorldScene extends Phaser.Scene {
   _enterPipe(pipe) {
     sfx.block();
     this.player.frozen = true;
-    this.physics.world.pause();
-    openProjectByIndex(pipe.projectKeys[0], () => {
-      this.player.frozen = false;
-      this.physics.world.resume();
+    this.player.setVelocity(0, 0);
+    this.cameras.main.fadeOut(220, 0, 0, 0);
+    this.cameras.main.once('camerafadeoutcomplete', () => {
+      this.scene.start('Underworld', {
+        projectIndex: pipe.projectKeys[0],
+        returnLevelKey: this.levelKey,
+        returnX: pipe.x,
+      });
     });
   }
 }

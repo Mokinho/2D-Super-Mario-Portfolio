@@ -76,7 +76,7 @@ export class ContentBlock extends Phaser.Physics.Arcade.Sprite {
 }
 
 export class Pipe extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, groundY, height, projectKeys, onEnter) {
+  constructor(scene, x, groundY, height, projectKeys, onEnter, promptText = '↓ Go Down') {
     const key = `pipe-${height}`;
     makePipeTexture(scene, key, 40, height);
     super(scene, x, groundY - height / 2, key);
@@ -84,7 +84,7 @@ export class Pipe extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.existing(this, true);
     this.projectKeys = projectKeys;
     this.onEnter = onEnter;
-    this.prompt = scene.add.text(x, groundY - height - 18, 'Press ↓', {
+    this.prompt = scene.add.text(x, groundY - height - 18, promptText, {
       fontFamily: 'monospace', fontSize: '13px', color: '#e8c766',
     }).setOrigin(0.5).setAlpha(0);
   }

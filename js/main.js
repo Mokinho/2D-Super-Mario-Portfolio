@@ -1,6 +1,7 @@
 import { BootScene } from './scenes/BootScene.js';
 import { TitleScene } from './scenes/TitleScene.js';
 import { WorldScene } from './scenes/WorldScene.js';
+import { UnderworldScene } from './scenes/UnderworldScene.js';
 import { WorldClearScene } from './scenes/WorldClearScene.js';
 import { GameOverScene } from './scenes/GameOverScene.js';
 import { openClassicResume } from './ui/Panels.js';
@@ -44,7 +45,7 @@ const config = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [BootScene, TitleScene, WorldScene, WorldClearScene, GameOverScene],
+  scene: [BootScene, TitleScene, WorldScene, UnderworldScene, WorldClearScene, GameOverScene],
 };
 
 window.__game = new Phaser.Game(config);
