@@ -346,3 +346,56 @@ html, body {
   .panel-box { padding: 24px 18px 20px; }
   .panel-title { font-size: 18px; }
 }
+
+/* The title screen uses the supplied pixel artwork at its original aspect ratio. */
+.welcome-screen {
+  position: fixed; inset: 0; z-index: 10; overflow: auto;
+  display: flex; align-items: center; justify-content: center;
+  padding: 64px 24px 24px;
+  background: radial-gradient(ellipse at 50% 25%, #147ac4, #09265c 80%);
+}
+.welcome-screen[hidden] { display: none; }
+.welcome-card { width: min(1200px, 100%); border: 4px solid #071440; box-shadow: 0 12px 0 #061337, 0 24px 70px #03133380; background: #091a48; }
+.welcome-art { position: relative; line-height: 0; overflow: hidden; }
+.welcome-art img { display: block; width: 100%; height: auto; }
+.welcome-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 26px 16px; border-top: 4px solid #071440; }
+.welcome-copy p { margin: 0; }
+.welcome-eyebrow { color: #ffdc45; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
+.welcome-copy .welcome-description { margin-top: 8px; color: #d2e5ff; font-size: 12px; line-height: 1.6; }
+.start-adventure { flex-shrink: 0; padding: 15px 20px; border: 3px solid #ffec91; background: #ffcc24; color: #071440; font: 800 15px var(--font-mono); cursor: pointer; box-shadow: 0 5px 0 #bd6807; transition: transform 120ms, background 120ms, box-shadow 120ms; }
+.start-adventure:hover { transform: translateY(-3px); background: #ffe369; box-shadow: 0 8px 0 #bd6807; }
+.start-adventure:active { transform: translateY(4px); box-shadow: 0 1px 0 #bd6807; }
+.start-adventure:focus-visible, .is-welcome .chip-btn:focus-visible { outline: 3px solid white; outline-offset: 5px; }
+.start-adventure span { display: inline-block; margin-right: 8px; animation: play-nudge 1s steps(2) infinite; }
+.welcome-controls { display: flex; justify-content: space-between; gap: 12px; margin: 0; padding: 0 26px 18px; color: #a5bee9; font-size: 10px; line-height: 1.6; }
+.coin-glint { position: absolute; color: white; font: 28px monospace; text-shadow: 0 0 12px #ffef75; animation: coin-glint 2.4s steps(4) infinite; pointer-events: none; }
+.coin-glint--one { left: 71.4%; top: 39%; }
+.coin-glint--two { left: 76.7%; top: 34%; animation-delay: .6s; }
+.coin-glint--three { left: 81.7%; top: 30%; animation-delay: 1.2s; }
+.is-welcome .chip-btn { border-radius: 3px; border: 2px solid #78afff; background: #091a48; box-shadow: 0 3px 0 #061337; }
+.is-welcome .chip-btn:hover { color: #ffdc45; border-color: #ffdc45; }
+.is-welcome .touch-controls { display: none; }
+.is-starting .welcome-card { transform: scale(1.02); opacity: 0; transition: transform 180ms ease-in, opacity 180ms ease-in; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@keyframes coin-glint { 0%, 70%, 100% { opacity: 0; transform: scale(.35); } 20%, 40% { opacity: 1; transform: scale(1); } }
+@keyframes play-nudge { 50% { transform: translateX(4px); } }
+@media (max-width: 640px) {
+  .welcome-screen { padding: 64px 12px 28px; }
+  .welcome-footer { flex-direction: column; text-align: center; padding: 20px 14px; gap: 18px; }
+  .welcome-eyebrow { font-size: 10px; }
+  .welcome-copy .welcome-description { font-size: 11px; }
+  .start-adventure { width: 100%; font-size: 14px; }
+  .welcome-controls { flex-direction: column; text-align: center; padding: 0 14px 16px; font-size: 9px; }
+  .coin-glint { font-size: 15px; }
+}
+@media (max-height: 600px) and (min-width: 641px) {
+  .welcome-screen { padding: 54px 16px 16px; align-items: flex-start; }
+  .welcome-card { max-width: calc((100dvh - 180px) * 1.777); min-width: 500px; }
+  .welcome-footer { padding: 12px 18px; }
+  .welcome-controls { padding: 0 18px 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .coin-glint, .start-adventure span { animation: none; }
+  .coin-glint { display: none; }
+  .is-starting .welcome-card, .start-adventure { transition: none; }
+}
