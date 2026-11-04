@@ -350,12 +350,12 @@ html, body {
 /* The title screen uses the supplied pixel artwork at its original aspect ratio. */
 .welcome-screen {
   position: fixed; inset: 0; z-index: 10; overflow: auto;
-  display: flex; align-items: center; justify-content: center;
-  padding: 64px 24px 24px;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 64px 0 0;
   background: radial-gradient(ellipse at 50% 25%, #147ac4, #09265c 80%);
 }
 .welcome-screen[hidden] { display: none; }
-.welcome-card { width: min(1200px, 100%); border: 4px solid #071440; box-shadow: 0 12px 0 #061337, 0 24px 70px #03133380; background: #091a48; }
+.welcome-card { width: 100%; border: 0; box-shadow: 0 12px 0 #061337, 0 24px 70px #03133380; background: #091a48; }
 .welcome-art { position: relative; line-height: 0; overflow: hidden; }
 .welcome-art img { display: block; width: 100%; height: auto; }
 .welcome-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 26px 16px; border-top: 4px solid #071440; }
@@ -380,7 +380,7 @@ html, body {
 @keyframes coin-glint { 0%, 70%, 100% { opacity: 0; transform: scale(.35); } 20%, 40% { opacity: 1; transform: scale(1); } }
 @keyframes play-nudge { 50% { transform: translateX(4px); } }
 @media (max-width: 640px) {
-  .welcome-screen { padding: 64px 12px 28px; }
+  .welcome-screen { padding: 64px 0 0; }
   .welcome-footer { flex-direction: column; text-align: center; padding: 20px 14px; gap: 18px; }
   .welcome-eyebrow { font-size: 10px; }
   .welcome-copy .welcome-description { font-size: 11px; }
@@ -389,8 +389,8 @@ html, body {
   .coin-glint { font-size: 15px; }
 }
 @media (max-height: 600px) and (min-width: 641px) {
-  .welcome-screen { padding: 54px 16px 16px; align-items: flex-start; }
-  .welcome-card { max-width: calc((100dvh - 180px) * 1.777); min-width: 500px; }
+  .welcome-screen { padding: 54px 0 0; align-items: flex-start; }
+  .welcome-card { width: 100%; min-width: 0; }
   .welcome-footer { padding: 12px 18px; }
   .welcome-controls { padding: 0 18px 10px; }
 }
