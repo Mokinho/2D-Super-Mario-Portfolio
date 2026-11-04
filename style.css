@@ -399,3 +399,83 @@ html, body {
   .coin-glint { display: none; }
   .is-starting .welcome-card, .start-adventure { transition: none; }
 }
+
+/* Responsive layout: preserve the complete artwork and keep actions readable. */
+.welcome-screen {
+  padding-top: calc(72px + env(safe-area-inset-top, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+}
+.welcome-card { min-width: 0; flex: 0 0 100%; box-shadow: none; }
+.welcome-art img { aspect-ratio: 1672 / 941; object-fit: contain; }
+.welcome-footer {
+  flex-wrap: wrap;
+  gap: 20px 32px;
+  padding: clamp(20px, 2.5vw, 36px) max(20px, env(safe-area-inset-left, 0px));
+}
+.welcome-copy { flex: 1 1 320px; min-width: 0; }
+.welcome-eyebrow { font-size: clamp(12px, 1vw, 15px); line-height: 1.6; }
+.welcome-copy .welcome-description { font-size: clamp(14px, 1.1vw, 17px); }
+.start-adventure { min-height: 52px; font-size: clamp(14px, 1.2vw, 18px); touch-action: manipulation; }
+.welcome-controls {
+  flex-wrap: wrap; font-size: 12px; line-height: 1.8;
+  padding: 0 max(20px, env(safe-area-inset-left, 0px)) 24px;
+}
+.touch-help { display: none; }
+.top-bar {
+  top: calc(12px + env(safe-area-inset-top, 0px));
+  right: max(12px, env(safe-area-inset-right, 0px));
+  left: max(12px, env(safe-area-inset-left, 0px));
+  justify-content: flex-end; flex-wrap: wrap;
+}
+.chip-btn { min-height: 44px; touch-action: manipulation; }
+.chip-btn--icon { min-width: 44px; }
+.touch-btn { touch-action: none; -webkit-user-select: none; }
+.panel-overlay {
+  padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px))
+    max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+}
+.panel-box { max-height: calc(100dvh - 32px); overscroll-behavior: contain; overflow-wrap: anywhere; }
+.panel-title { padding-right: 40px; }
+.panel-close { width: 44px; height: 44px; top: 8px; right: 8px; touch-action: manipulation; }
+.pk-project-grid { grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); }
+.cr-skills-grid { grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); }
+.pk-contact-link { gap: 8px 16px; flex-wrap: wrap; min-height: 48px; }
+.pk-contact-value { min-width: 0; overflow-wrap: anywhere; }
+button:focus-visible, a:focus-visible { outline: 3px solid #ffdc45; outline-offset: 3px; }
+@media (max-width: 1024px) {
+  .welcome-footer { gap: 20px; }
+  .welcome-controls { gap: 8px 20px; }
+}
+@media (max-width: 640px) {
+  .welcome-footer { flex-direction: column; align-items: stretch; text-align: left; padding: 24px 20px; }
+  .welcome-copy { flex: none; }
+  .welcome-eyebrow { font-size: 12px; letter-spacing: 1px; }
+  .welcome-copy .welcome-description { font-size: 14px; }
+  .start-adventure { width: 100%; min-height: 56px; font-size: 15px; }
+  .welcome-controls { text-align: left; padding: 0 20px 24px; font-size: 12px; }
+  .pk-timeline-item, .pk-timeline li { grid-template-columns: 1fr; gap: 6px; }
+  .panel-box { border-radius: 12px; padding: 24px 18px; }
+  .panel-body { font-size: 14px; }
+}
+@media (any-pointer: coarse), (max-width: 1024px) {
+  .touch-controls { display: flex; padding: 0 max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
+  .is-welcome .touch-controls { display: none; }
+  .touch-help { display: inline; }
+  .keyboard-help { display: none; }
+  body:not(.is-welcome) #game-container { top: calc(68px + env(safe-area-inset-top, 0px)); bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (max-width: 360px) {
+  .touch-controls__side { gap: 8px; }
+  .touch-btn { width: 48px; height: 48px; }
+  .touch-btn--jump { width: 56px; height: 56px; }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .welcome-footer { flex-direction: row; align-items: center; padding: 16px 20px; }
+  .welcome-copy { flex: 1 1 220px; }
+  .start-adventure { width: auto; min-height: 48px; }
+  .touch-btn { width: 44px; height: 44px; }
+  .touch-btn--jump { width: 52px; height: 52px; }
+  body:not(.is-welcome) #game-container { top: 60px; bottom: calc(68px + env(safe-area-inset-bottom, 0px)); }
+}

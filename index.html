@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261104-fullwidth">
+<link rel="stylesheet" href="style.css?v=20261104-responsive">
 </head>
 <body>
 
@@ -33,7 +33,7 @@
       </div>
       <button id="start-adventure" class="start-adventure" type="button"><span aria-hidden="true">▶</span> START ADVENTURE</button>
     </div>
-    <p class="welcome-controls"><span>ENTER / SPACE to start</span><span>← → / WASD move · ↑ / SPACE jump · ↓ enter pipes</span></p>
+    <p class="welcome-controls"><span class="keyboard-help">ENTER / SPACE to start · ← → / WASD move · ↑ / SPACE jump · ↓ enter pipes</span><span class="touch-help">Tap Start Adventure, then use the on-screen arrows to move, A to jump and ▼ to enter pipes.</span><span>Prefer reading? Open Classic Resume above.</span></p>
   </div>
 </main>
 
@@ -42,14 +42,14 @@
   <button id="mute-btn" class="chip-btn chip-btn--icon" type="button" aria-label="Toggle sound">🔊</button>
 </div>
 
-<div class="touch-controls" aria-hidden="true">
+<div class="touch-controls" role="group" aria-label="Game controls">
   <div class="touch-controls__side touch-controls__side--left">
-    <button id="btn-left" class="touch-btn" type="button">◀</button>
-    <button id="btn-right" class="touch-btn" type="button">▶</button>
+    <button id="btn-left" aria-label="Move left" class="touch-btn" type="button">◀</button>
+    <button id="btn-right" aria-label="Move right" class="touch-btn" type="button">▶</button>
   </div>
   <div class="touch-controls__side touch-controls__side--right">
-    <button id="btn-down" class="touch-btn" type="button">▼</button>
-    <button id="btn-jump" class="touch-btn touch-btn--jump" type="button">A</button>
+    <button id="btn-down" aria-label="Enter pipe" class="touch-btn" type="button">▼</button>
+    <button id="btn-jump" aria-label="Jump" class="touch-btn touch-btn--jump" type="button">A</button>
   </div>
 </div>
 
