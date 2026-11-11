@@ -37,3 +37,9 @@ js/
 ## Updating content
 
 Edit `js/data/content.js` — about text, skills, projects and contact links all live there and flow through to both the in-game panels and the Classic Resume view.
+
+## License
+
+© 2026 Faiq Zharfan. All rights reserved.
+
+This code is published for viewing only. You may not copy, modify, redistribute or reuse it, in whole or in part, without written permission from the author. Third-party libraries included in this repository (such as Phaser) remain under their own licenses.
