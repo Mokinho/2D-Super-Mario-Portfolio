@@ -4,6 +4,7 @@ import { Coin, PowerUp, ContentBlock, Pipe, Flagpole } from '../entities/Interac
 import { LEVELS, GROUND_Y, WORLD_HEIGHT } from '../levels/levels.js';
 import { GameState } from '../state/GameState.js';
 import { sfx } from '../audio/Sfx.js';
+import { buildPixelHud, setHudValues } from '../ui/Hud.js';
 import {
   openAboutParagraph, openExperience, openSkill, openAllProjects, openContact, isPanelOpen,
 } from '../ui/Panels.js';
@@ -79,14 +80,42 @@ export class WorldScene extends Phaser.Scene {
   }
 
   _buildBackground(level) {
-    for (let x = 0; x < level.width; x += 420) {
-      this.add.image(x + 90, GROUND_Y + 4, 'hill').setOrigin(0.5, 1).setScrollFactor(0.15).setDepth(-3);
+    const W = this.scale.width;
+    const H = this.scale.height;
+    this.add.image(0, 0, 'sky').setOrigin(0, 0).setDisplaySize(W, H).setScrollFactor(0).setDepth(-10);
+
+    const layer = (key, factor, y, depth, alpha = 1) => {
+      const tex = this.textures.get(key).getSourceImage();
+      const width = Math.ceil(level.width * factor + W + tex.width);
+      return this.add.tileSprite(0, y, width, tex.height, key)
+        .setOrigin(0, 1).setScrollFactor(factor, 1).setDepth(depth).setAlpha(alpha);
+    };
+    layer('mountains', 0.12, GROUND_Y + 6, -8);
+    layer('hills', 0.3, GROUND_Y + 6, -7);
+
+    // Clouds drift at their own pace
+    for (let x = 40, i = 0; x < level.width * 0.4 + W; x += 230, i++) {
+      const key = i % 3 === 1 ? 'cloud-small' : 'cloud';
+      const y = 60 + ((i * 53) % 150);
+      this.add.image(x, y, key).setScrollFactor(0.25, 1).setDepth(-6);
     }
-    for (let x = 0; x < level.width; x += 300) {
-      this.add.image(x + 140, GROUND_Y + 4, 'bush').setOrigin(0.5, 1).setScrollFactor(0.4).setDepth(-2);
+    // Floating browser windows with a cloud cushion
+    for (let x = 620; x < level.width * 0.3 + W; x += 900) {
+      const y = 120 + ((x / 900) % 2) * 40;
+      this.add.image(x, y, 'browser').setScrollFactor(0.3, 1).setDepth(-5);
+      this.add.image(x - 40, y + 34, 'cloud-small').setScrollFactor(0.3, 1).setDepth(-5);
+      this.add.image(x + 46, y + 38, 'cloud-small').setScrollFactor(0.3, 1).setDepth(-5).setFlipX(true);
     }
-    for (let x = 0; x < level.width; x += 260) {
-      this.add.image(x + 60, 70 + (Math.sin(x) * 20), 'cloud').setAlpha(0.9).setScrollFactor(0.35).setDepth(-4);
+    // Bushes along the ground
+    for (let x = 120, i = 0; x < level.width; x += 260 + ((i * 97) % 180), i++) {
+      this.add.image(x, GROUND_Y + 2, i % 2 ? 'bush-small' : 'bush').setOrigin(0.5, 1).setDepth(-1);
+    }
+    // Welcome sign at the start of each world, castle behind the goal flag
+    this.add.image(150, GROUND_Y + 2, 'sign').setOrigin(0.5, 1).setDepth(-1);
+    if (level.isCastle) {
+      this.add.image(level.flagX, GROUND_Y, 'castle-big').setOrigin(0.5, 1).setDepth(-1);
+    } else {
+      this.add.image(level.flagX + 80, GROUND_Y, 'castle').setOrigin(0.5, 1).setDepth(-1);
     }
   }
 
@@ -104,34 +133,31 @@ export class WorldScene extends Phaser.Scene {
     segments.forEach((seg) => {
       if (seg.w <= 0) return;
       const h = WORLD_HEIGHT - GROUND_Y;
+      this.add.tileSprite(seg.x, GROUND_Y, seg.w, 32, 'ground').setOrigin(0, 0).setDepth(1);
+      this.add.tileSprite(seg.x, GROUND_Y + 32, seg.w, h - 32 + 40, 'ground-fill').setOrigin(0, 0).setDepth(1);
       const s = this.groundGroup.create(seg.x + seg.w / 2, GROUND_Y + h / 2, 'ground');
       s.setDisplaySize(seg.w, h);
+      s.setVisible(false);
       s.refreshBody();
     });
 
     level.platforms.forEach((p) => {
+      this.add.tileSprite(p.x, p.y, p.w, 28, 'platform').setOrigin(0, 0).setDepth(1);
       const s = this.groundGroup.create(p.x + p.w / 2, p.y + 8, 'platform');
       s.setDisplaySize(p.w, 16);
+      s.setVisible(false);
       s.refreshBody();
     });
   }
 
   _buildHud(level) {
-    const style = { fontFamily: 'monospace', fontSize: '15px', color: '#f7f3ee', stroke: '#000000', strokeThickness: 4 };
-    this.add.rectangle(0, 0, this.scale.width, 84, 0x000000, 0.28).setOrigin(0, 0).setScrollFactor(0).setDepth(90);
-    this.hudLives = this.add.text(16, 12, '', style).setScrollFactor(0).setDepth(100);
-    this.hudCoins = this.add.text(16, 34, '', style).setScrollFactor(0).setDepth(100);
-    this.hudScore = this.add.text(16, 56, '', style).setScrollFactor(0).setDepth(100);
-    this.hudTitle = this.add.text(this.scale.width - 16, 12, level.title, {
-      ...style, color: '#ffd23f',
-    }).setOrigin(1, 0).setScrollFactor(0).setDepth(100);
+    const hud = buildPixelHud(this, level.title);
+    Object.assign(this, hud);
     this._refreshHud();
   }
 
   _refreshHud() {
-    this.hudLives.setText(`☕ x${GameState.lives}`);
-    this.hudCoins.setText(`◉ ${GameState.coins}`);
-    this.hudScore.setText(`SCORE ${GameState.score}`);
+    setHudValues(this, GameState);
   }
 
   _buildTouchControlsBinding() {
@@ -232,7 +258,7 @@ export class WorldScene extends Phaser.Scene {
       lifespan: 900,
       quantity: 24,
       scale: { start: 1.4, end: 0 },
-      tint: [0xe85002, 0xe8c766, 0xf7f3ee],
+      tint: [0xffc61f, 0xe8352c, 0xffffff, 0x3f5ec6],
     });
     emitter.setScrollFactor(0);
     this.time.delayedCall(950, () => emitter.destroy());
