@@ -12,22 +12,22 @@ export class WorldClearScene extends Phaser.Scene {
 
   create() {
     const { width, height } = this.scale;
-    this.cameras.main.setBackgroundColor(0x000000);
+    this.cameras.main.setBackgroundColor(0x0d1f5c);
 
-    this.add.text(width / 2, height * 0.32, `${this.clearedTitle.toUpperCase()}`, {
-      fontFamily: 'monospace', fontSize: '22px', color: '#e85002',
+    this.add.text(width / 2, height * 0.32, `${this.clearedTitle.replace(/·/g, "-").toUpperCase()}`, {
+      fontFamily: '"Press Start 2P", monospace', fontSize: '16px', color: '#ffc61f',
     }).setOrigin(0.5);
     this.add.text(width / 2, height * 0.4, 'CLEAR!', {
-      fontFamily: 'monospace', fontSize: '40px', color: '#f7f3ee', fontStyle: 'bold',
+      fontFamily: '"Press Start 2P", monospace', fontSize: '34px', color: '#f7f3ee', fontStyle: 'bold',
     }).setOrigin(0.5);
 
-    this.add.text(width / 2, height * 0.55, `Coins ◉ ${GameState.coins}   Score ${GameState.score}`, {
-      fontFamily: 'monospace', fontSize: '16px', color: '#9a8c7f',
+    this.add.text(width / 2, height * 0.55, `COINS ${GameState.coins}   SCORE ${GameState.score}`, {
+      fontFamily: '"Press Start 2P", monospace', fontSize: '12px', color: '#d2e5ff',
     }).setOrigin(0.5);
 
     const label = this.nextKey ? 'PRESS ENTER TO CONTINUE' : 'PRESS ENTER';
     const blink = this.add.text(width / 2, height * 0.72, label, {
-      fontFamily: 'monospace', fontSize: '15px', color: '#f7f3ee',
+      fontFamily: '"Press Start 2P", monospace', fontSize: '12px', color: '#f7f3ee',
     }).setOrigin(0.5);
     this.tweens.add({ targets: blink, alpha: 0.2, duration: 600, yoyo: true, repeat: -1 });
 

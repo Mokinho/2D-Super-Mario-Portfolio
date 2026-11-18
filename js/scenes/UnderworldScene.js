@@ -4,6 +4,7 @@ import { Coin, ContentBlock, Pipe } from '../entities/Interactables.js';
 import { FEATURED_PROJECTS } from '../data/content.js';
 import { GameState } from '../state/GameState.js';
 import { sfx } from '../audio/Sfx.js';
+import { buildPixelHud, setHudValues } from '../ui/Hud.js';
 import { PALETTE } from '../gfx/palette.js';
 import { openProjectByIndex, isPanelOpen } from '../ui/Panels.js';
 
@@ -82,21 +83,12 @@ export class UnderworldScene extends Phaser.Scene {
   }
 
   _buildHud(project) {
-    const style = { fontFamily: 'monospace', fontSize: '15px', color: '#f7f3ee', stroke: '#000000', strokeThickness: 4 };
-    this.add.rectangle(0, 0, this.scale.width, 84, 0x000000, 0.35).setOrigin(0, 0).setScrollFactor(0).setDepth(90);
-    this.hudLives = this.add.text(16, 12, '', style).setScrollFactor(0).setDepth(100);
-    this.hudCoins = this.add.text(16, 34, '', style).setScrollFactor(0).setDepth(100);
-    this.hudScore = this.add.text(16, 56, '', style).setScrollFactor(0).setDepth(100);
-    this.hudTitle = this.add.text(this.scale.width - 16, 12, `Underworld · ${project.title}`, {
-      ...style, color: '#5aa8e8',
-    }).setOrigin(1, 0).setScrollFactor(0).setDepth(100);
+    Object.assign(this, buildPixelHud(this, `Underworld - ${project.title}`));
     this._refreshHud();
   }
 
   _refreshHud() {
-    this.hudLives.setText(`☕ x${GameState.lives}`);
-    this.hudCoins.setText(`◉ ${GameState.coins}`);
-    this.hudScore.setText(`SCORE ${GameState.score}`);
+    setHudValues(this, GameState);
   }
 
   _onPlayerBug(playerObj, bugObj) {
