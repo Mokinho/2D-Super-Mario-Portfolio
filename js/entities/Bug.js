@@ -5,8 +5,8 @@ export class Bug extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, 'bug-1');
     scene.add.existing(this);
     scene.physics.add.existing(this);
-    this.setBodySize(22, 14, false);
-    this.body.setOffset(2, 6);
+    this.setBodySize(24, 14, false);
+    this.body.setOffset(3, 7);
     this.rangeMin = rangeMin;
     this.rangeMax = rangeMax;
     this.dir = 1;
@@ -37,7 +37,7 @@ export class Bug extends Phaser.Physics.Arcade.Sprite {
     this.alive = false;
     this.body.enable = false;
     this.setTexture('bug-dead');
-    this.setDisplaySize(26, 10);
+    this.setDisplaySize(30, 8);
     this.scene.time.delayedCall(400, () => this.destroy());
   }
 }

@@ -52,14 +52,26 @@ export class ContentBlock extends Phaser.Physics.Arcade.Sprite {
     this.contentKey = contentKey;
     this.onHit = onHit;
     this.used = false;
-    this.markText = scene.add.text(x, y, '?', {
-      fontFamily: 'monospace', fontSize: '20px', color: '#f7f3ee', fontStyle: 'bold',
-    }).setOrigin(0.5);
+    this.markText = scene.add.text(x, y, '', { fontFamily: 'monospace', fontSize: '1px' }).setOrigin(0.5);
+    // Little gold rays around unopened blocks
+    this.sparks = [[-26, -14, -60], [0, -30, 0], [26, -14, 60], [-30, 8, -100], [30, 8, 100]].map(([dx, dy, ang]) => (
+      scene.add.image(x + dx, y + dy, 'spark').setAngle(ang)
+    ));
+    this.sparkTween = scene.tweens.add({
+      targets: this.sparks, alpha: { from: 1, to: 0.15 }, duration: 520, yoyo: true, repeat: -1, ease: 'Sine.easeInOut',
+    });
+  }
+
+  _clearSparks() {
+    if (this.sparkTween) { this.sparkTween.stop(); this.sparkTween = null; }
+    (this.sparks || []).forEach((sp) => sp.destroy());
+    this.sparks = [];
   }
 
   hit(player) {
     if (this.used) return;
     this.used = true;
+    this._clearSparks();
     this.setTexture('block-used');
     this.markText.setText('');
     const baseY = this.y;
@@ -71,6 +83,7 @@ export class ContentBlock extends Phaser.Physics.Arcade.Sprite {
 
   destroy(fromScene) {
     if (this.markText) this.markText.destroy();
+    this._clearSparks();
     super.destroy(fromScene);
   }
 }
@@ -85,7 +98,7 @@ export class Pipe extends Phaser.Physics.Arcade.Sprite {
     this.projectKeys = projectKeys;
     this.onEnter = onEnter;
     this.prompt = scene.add.text(x, groundY - height - 18, promptText, {
-      fontFamily: 'monospace', fontSize: '13px', color: '#e8c766',
+      fontFamily: '"Press Start 2P", monospace', fontSize: '10px', color: '#ffdc45', stroke: '#101633', strokeThickness: 4,
     }).setOrigin(0.5).setAlpha(0);
   }
 
@@ -109,7 +122,8 @@ export class Flagpole extends Phaser.Physics.Arcade.Sprite {
     this.onReach = onReach;
     this.triggered = false;
     if (!isCastle) {
-      this.banner = scene.add.image(x + 3, groundY - FLAGPOLE_HEIGHT + 10, 'flag-banner').setOrigin(0, 0.5);
+      this.banner = scene.add.image(x + 4, groundY - FLAGPOLE_HEIGHT + 22, 'flag-banner').setOrigin(0, 0.5);
+      this.ball = scene.add.image(x, groundY - FLAGPOLE_HEIGHT - 4, 'flag-ball');
     }
   }
 
@@ -121,6 +135,7 @@ export class Flagpole extends Phaser.Physics.Arcade.Sprite {
 
   destroy(fromScene) {
     if (this.banner) this.banner.destroy();
+    if (this.ball) this.ball.destroy();
     super.destroy(fromScene);
   }
 }

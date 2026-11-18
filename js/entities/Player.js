@@ -10,8 +10,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, 'player-idle');
     scene.add.existing(this);
     scene.physics.add.existing(this);
-    this.setBodySize(18, 34, false);
-    this.body.setOffset(5, 6);
+    this.setBodySize(20, 42, false);
+    this.body.setOffset(10, 8);
     this.setCollideWorldBounds(true);
     this.setMaxVelocity(SPEED, 900);
     this.invulnerable = false;
